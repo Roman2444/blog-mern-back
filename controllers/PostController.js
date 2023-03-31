@@ -35,6 +35,31 @@ export const getOne = async (req, res) => {
   }
 };
 
+export const remove = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    const deletedPost = await PostModel.findOneAndDelete({
+      _id: postId,
+    });
+
+    if (!deletedPost) {
+      return res.status(404).json({
+        message: "Статья не найдена",
+      });
+    }
+
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось удалить статью",
+    });
+  }
+};
+
 // создаем статью
 export const create = async (req, res) => {
   try {
