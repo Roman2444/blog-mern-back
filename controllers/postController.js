@@ -12,35 +12,22 @@ export const getAll = async (req, res) => {
   }
 };
 
-// получаем 1 статью
 export const getOne = async (req, res) => {
   try {
-    const postId = req.params.id; // вытаскиваем ID статьи которую будем искать
+    const postId = req.params.id;
+    const post = await PostModel.findById(postId).populate("user").exec();
+    if (!post) {
+      return res.status(404).json({ message: "Статья не найдена" });
+    }
 
-    // нам нужно найти статью и увеличить количество просмотров на 1
-    PostModel.findOneAndUpdate(
-      {
-        _id: postId,
-      },
-      {
-        $inc: { viewsCount: 1 }, // передаем что будем изменять на 1
-      },
-      {
-        returnDocument: "after", // после обновления вернем актуальный документ
-      },
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({ message: "Не удалось вернуть статью" });
-        }
-        if (!doc) {
-          return res.status(404).json({
-            message: "Статья не найдена",
-          });
-        }
-        res.json(doc);
-      }
+    // обновление количества просмотров
+    const updatedPost = await PostModel.findOneAndUpdate(
+      { _id: postId },
+      { $inc: { viewsCount: 1 } },
+      { new: true }
     );
+
+    res.json(updatedPost);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Не удалось получить статью" });
