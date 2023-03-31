@@ -6,7 +6,7 @@ import {
   postCreateValidation,
 } from "./validations.js";
 import checkAuth from "./utils/checkAuth.js";
-import * as PostController from "./controllers/PostController.js";
+import * as PostController from "./controllers/PostController1.js";
 import * as UserController from "./controllers/UserController.js";
 
 mongoose

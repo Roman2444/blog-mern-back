@@ -12,6 +12,7 @@ export const getAll = async (req, res) => {
   }
 };
 
+// получаем статью по ID
 export const getOne = async (req, res) => {
   try {
     const postId = req.params.id;
