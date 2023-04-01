@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import multer from "multer";
 import {
   registerValidation,
   loginValidation,
@@ -19,6 +20,18 @@ mongoose
 const app = express();
 app.use(express.json());
 
+// создаем хранилище, загружаемые файлы сохраняются в папку "upload", 
+// destrination возвращает путь данного файла
+// filename перед сохранением объясняет как называть  загруженный файл
+const storage = multer.diskStorage({
+  destrination: (_, __, cb) => {
+    cb(null, "upload");
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
 //авторизация
 app.post("/auth/login", loginValidation, UserController.login);
 // страница регистрации
@@ -31,7 +44,7 @@ app.get("/posts", PostController.getAll);
 app.get("/posts/:id", PostController.getOne);
 app.post("/posts", checkAuth, postCreateValidation, PostController.create);
 app.delete("/posts/:id", checkAuth, PostController.remove);
-app.patch("/posts/:id", checkAuth, PostController.update); 
+app.patch("/posts/:id", checkAuth, PostController.update);
 
 app.listen(4444, (err) => {
   if (err) {
