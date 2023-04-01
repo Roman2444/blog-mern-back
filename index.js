@@ -20,6 +20,9 @@ mongoose
 const app = express();
 app.use(express.json());
 
+// чтобы проверялись и отрабатывались гет-запросы в папке uploads
+app.use("/uploads", express.static("uploads"));
+
 // создаем хранилище, загружаемые файлы сохраняются в папку "upload",
 // destrination возвращает путь данного файла
 // filename перед сохранением объясняет как называть  загруженный файл
@@ -37,7 +40,7 @@ const upload = multer({ storage });
 // роут для загрузки файла
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
   res.json({
-    url: `/uloads/${req.file.originalname}`,
+    url: `/uploads/${req.file.originalname}`,
   });
 });
 
