@@ -20,16 +20,25 @@ mongoose
 const app = express();
 app.use(express.json());
 
-// создаем хранилище, загружаемые файлы сохраняются в папку "upload", 
+// создаем хранилище, загружаемые файлы сохраняются в папку "upload",
 // destrination возвращает путь данного файла
 // filename перед сохранением объясняет как называть  загруженный файл
 const storage = multer.diskStorage({
-  destrination: (_, __, cb) => {
-    cb(null, "upload");
+  destination: (_, __, cb) => {
+    cb(null, "uploads");
   },
   filename: (_, file, cb) => {
     cb(null, file.originalname);
   },
+});
+
+const upload = multer({ storage });
+
+// роут для загрузки файла
+app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
+  res.json({
+    url: `/uloads/${req.file.originalname}`,
+  });
 });
 
 //авторизация
