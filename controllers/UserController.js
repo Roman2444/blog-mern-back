@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { validationResult } from "express-validator";
 import UserModel from "../models/User.js";
 
 //авторизация
@@ -51,11 +50,6 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
   try {
     console.log(req.body);
-    //проверка на ошибки
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json(errors.array());
-    }
 
     // шифруем пароль
     const password = req.body.password;
