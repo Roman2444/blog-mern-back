@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import cors from "cors";
 import {
   registerValidation,
   loginValidation,
@@ -19,7 +20,7 @@ mongoose
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 // чтобы проверялись и отрабатывались гет-запросы в папке uploads
 app.use("/uploads", express.static("uploads"));
 
