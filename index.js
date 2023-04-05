@@ -62,6 +62,8 @@ app.post(
 // страници обо мне
 app.get("/auth/me", checkAuth, UserController.getMe);
 
+app.get("/tags", PostController.getLastTags);
+
 // работа с постами
 app.get("/posts", PostController.getAll);
 app.get("/posts/:id", PostController.getOne);
