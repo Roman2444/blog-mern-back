@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export default (req, res, next) => {
   // необходимо спарсить токен и расшифровать
   // проверяем есть токен или нет, удаляем "Bearer" в начале токена
-  const token = (req.headers.authorisation || "").replace(/Bearer\s?/, "");
+  const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
   if (token) {
     try {
       const decoded = jwt.verify(token, "secret123");
