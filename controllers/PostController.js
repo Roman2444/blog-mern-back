@@ -7,7 +7,7 @@ export const getLastTags = async (req, res) => {
     const tags = posts
       .map((obj) => obj.tags)
       .flat()
-      .slice(0,5);
+      .slice(0, 5);
 
     res.json(tags);
   } catch (err) {
@@ -42,7 +42,7 @@ export const getOne = async (req, res) => {
       { _id: postId },
       { $inc: { viewsCount: 1 } },
       { new: true }
-    );
+    ).populate("user");
 
     res.json(updatedPost);
   } catch (err) {
